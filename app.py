@@ -54,8 +54,6 @@ if st.button('Prédire'):
         'SEX': [sex],
         'PATIENT_TYPE': [patient_type],
         'DAY_DIED': [day],  # Jour extrait de la date
-        'MONTH_DIED': [month],  # Mois extrait de la date
-        'YEAR_DIED': [year],  # Année extraite de la date
         'INTUBED': [intubed],
         'PNEUMONIA': [pneumonia],
         'AGE': [age],
