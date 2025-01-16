@@ -3,6 +3,13 @@ import joblib
 import pandas as pd
 import os
 
+# Vérifier les dépendances nécessaires
+try:
+    import sklearn
+except ImportError:
+    st.error("Erreur : La bibliothèque 'scikit-learn' n'est pas installée. Veuillez l'installer avec la commande : `pip install scikit-learn`")
+    st.stop()
+
 # Titre de l'application
 st.title("Prédiction d'admission en soins intensifs (COVID-19)")
 
@@ -12,21 +19,24 @@ def load_model():
     model_path = 'covid_icu_model (1).pkl'  # Chemin relatif au même dossier que app.py
     
     # Vérifier que le fichier existe
-    if os.path.exists(model_path):
-        try:
-            return joblib.load(model_path)  # Charger le modèle
-        except Exception as e:
-            raise RuntimeError(f"Impossible de charger le modèle : {e}")
-    else:
-        raise FileNotFoundError(f"Le fichier du modèle {model_path} n'existe pas dans le dossier courant.")
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Le fichier du modèle '{model_path}' n'existe pas dans le dossier courant.")
+    
+    try:
+        return joblib.load(model_path)  # Charger le modèle
+    except Exception as e:
+        raise RuntimeError(f"Impossible de charger le modèle : {e}")
 
 # Charger le modèle avec vérification
 try:
     model = load_model()
     st.success("Modèle chargé avec succès !")
-except Exception as e:
+except FileNotFoundError as e:
+    st.error(f"Erreur : {e}")
+    st.stop()
+except RuntimeError as e:
     st.error(f"Erreur lors du chargement du modèle : {e}")
-    st.stop()  # Arrête l'exécution de l'application si le modèle ne peut pas être chargé
+    st.stop()
 
 # Formulaire pour saisir les données
 st.sidebar.header("Saisissez les informations du patient")
