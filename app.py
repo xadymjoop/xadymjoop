@@ -15,7 +15,7 @@ st.title("Entraînement et prédiction avec RandomForest")
 # Charger le modèle pour faire des prédictions
 if st.button("Charger le modèle et faire une prédiction"):
     try:
-        model = joblib.load('covid_icu_model.pkl')
+        model = joblib.load('covid_risk_model.pkl')
         st.success("Modèle chargé avec succès !")
 
         # Formulaire pour saisir les données
