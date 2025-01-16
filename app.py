@@ -4,6 +4,7 @@ import joblib
 import os
 from datetime import datetime
 
+
 # Vérifier si le modèle existe avant de le charger
 model_path = 'covid_risk_model.pkl'
 if not os.path.exists(model_path):
@@ -81,10 +82,17 @@ if st.button('Prédire'):
         'CLASIFFICATION_FINAL': [clasif_final],
         'ICU': [icu]
     })
-    
+
+    # Vérifiez que le DataFrame a bien 22 colonnes
+    expected_features = 22
+    if input_data.shape[1] != expected_features:
+        st.error(f"Erreur : le modèle attend {expected_features} caractéristiques, mais {input_data.shape[1]} ont été fournies.")
+        st.stop()
+
     # Faire la prédiction
     try:
         prediction = model.predict(input_data)
         st.write(f'Risque de décès : {"Élevé" if prediction[0] == 1 else "Faible"}')
     except Exception as e:
         st.error(f"Erreur lors de la prédiction : {e}")
+
