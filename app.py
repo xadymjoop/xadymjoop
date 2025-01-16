@@ -4,7 +4,7 @@ import joblib
 import gdown
 import os
 
-
+from datetime import datetime
 
 # Charger le modèle sauvegardé
 model = joblib.load('covid_risk_model.pkl')
@@ -37,13 +37,25 @@ icu = st.selectbox('Unité de soins intensifs', [1, 2])
 
 # Prédiction
 if st.button('Prédire'):
+    # Convertir la date en jour, mois et année
+    try:
+        date_obj = datetime.strptime(date_died, '%d/%m/%Y')
+        day = date_obj.day
+        month = date_obj.month
+        year = date_obj.year
+    except ValueError:
+        st.error("Format de date invalide. Utilisez le format JJ/MM/AAAA.")
+        st.stop()
+
     # Créer un DataFrame avec les 22 features dans le même ordre que lors de l'entraînement
     input_data = pd.DataFrame({
         'USMER': [usmer],
         'MEDICAL_UNIT': [medical_unit],
         'SEX': [sex],
         'PATIENT_TYPE': [patient_type],
-        'DATE_DIED': [date_died],
+        'DAY_DIED': [day],  # Jour extrait de la date
+        'MONTH_DIED': [month],  # Mois extrait de la date
+        'YEAR_DIED': [year],  # Année extraite de la date
         'INTUBED': [intubed],
         'PNEUMONIA': [pneumonia],
         'AGE': [age],
