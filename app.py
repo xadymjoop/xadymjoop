@@ -4,10 +4,7 @@ import joblib
 import os
 from datetime import datetime
 
-import streamlit as st
-import joblib
-import pandas as pd
-from datetime import datetime
+
 
 # Charger le modèle sauvegardé
 model = joblib.load('covid_risk_model.pkl')
