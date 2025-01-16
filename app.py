@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from datetime import datetime
-
+import os
 # Titre de l'application
 st.title("Entraînement et prédiction avec RandomForest")
 
