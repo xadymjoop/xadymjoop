@@ -51,7 +51,7 @@ if st.button("Entraîner le modèle"):
     st.write("Classification Report:\n", classification_report(y_test, y_pred))
 
     # Sauvegarder le modèle
-    joblib.dump(model, 'covid_icu_model.pkl')
+    joblib.dump(model, 'covid_icu_model (1).pkl')
     st.success("Modèle entraîné et sauvegardé avec succès !")
 
 # Charger le modèle pour faire des prédictions
