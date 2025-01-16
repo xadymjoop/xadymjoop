@@ -1,13 +1,17 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import gdown
 import os
 from datetime import datetime
 
+# Vérifier si le modèle existe avant de le charger
+model_path = 'covid_risk_model.pkl'
+if not os.path.exists(model_path):
+    st.error("Le fichier du modèle 'covid_risk_model.pkl' est introuvable. Assurez-vous qu'il est bien dans le répertoire.")
+    st.stop()
 
 # Charger le modèle sauvegardé
-model = joblib.load('covid_risk_model.pkl')
+model = joblib.load(model_path)
 
 # Interface Streamlit
 st.title('Prédiction du risque de décès dû au COVID-19')
@@ -47,15 +51,19 @@ if st.button('Prédire'):
         st.error("Format de date invalide. Utilisez le format JJ/MM/AAAA.")
         st.stop()
 
+    # Gérer la valeur de `DAY_DIED` si aucune date n'est fournie (par exemple, date par défaut pour les vivants)
+    if date_died.strip() == '01/01/2020':  # Exemple de date par défaut
+        day_died = 0  # Indiquer que la personne est vivante
+    else:
+        day_died = year  # Sinon, utiliser l'année
+
     # Créer un DataFrame avec les 22 features dans le même ordre que lors de l'entraînement
     input_data = pd.DataFrame({
         'USMER': [usmer],
         'MEDICAL_UNIT': [medical_unit],
         'SEX': [sex],
         'PATIENT_TYPE': [patient_type],
-        'DAY_DIED': [day],  # Jour extrait de la date
-        'MONTH_DIED': [month],  # Mois extrait de la date
-        'YEAR_DIED': [year],  # Année extraite de la date
+        'DAY_DIED': [day_died],
         'INTUBED': [intubed],
         'PNEUMONIA': [pneumonia],
         'AGE': [age],
