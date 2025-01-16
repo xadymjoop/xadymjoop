@@ -9,7 +9,7 @@ st.title("Prédiction d'admission en soins intensifs (COVID-19)")
 # Fonction pour charger le modèle localement
 @st.cache_resource  # Cache le modèle pour éviter de le recharger à chaque interaction
 def load_model():
-    model_path = 'covid_icu_model.pkl'  # Chemin relatif au même dossier que app.py
+    model_path = 'covid_icu_model (1).pkl'  # Chemin relatif au même dossier que app.py
     
     # Vérifier que le fichier existe
     if os.path.exists(model_path):
