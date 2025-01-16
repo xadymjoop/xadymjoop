@@ -3,8 +3,8 @@ import pandas as pd
 import joblib
 import gdown
 import os
-
 from datetime import datetime
+
 
 # Charger le modèle sauvegardé
 model = joblib.load('covid_risk_model.pkl')
